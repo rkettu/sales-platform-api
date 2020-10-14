@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "sales-app-api",
+    "version": "1.0",
+    "description": "sales app"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/postings": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "operationId": "get-postings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "examples": {
+                "example-1": {
+                  "value": {}
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object"
+              },
+              "examples": {
+                "example-1": {
+                  "value": {}
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "Getting postings (login not required). This can be queried with the following parameters: category, location and time. A request can have multiple queries. If no queries are used it gets all postings.\n",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "category"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "location"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "time"
+          }
+        ]
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-postings",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "description": "Creating a posting. Login is required for this operation. Postings are added into a list on the server side.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "postingid": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "price": {
+                    "type": "string"
+                  },
+                  "dateofposting": {
+                    "type": "string"
+                  },
+                  "deliverytype": {
+                    "type": "string"
+                  },
+                  "sellername": {
+                    "type": "string"
+                  },
+                  "sellerphone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Deliverytype must be \"shipping\" or \"pickup\". If something else, defaults to \"shipping\". Max images 4, otherwise only first four are saved."
+        }
+      },
+      "parameters": []
+    },
+    "/postings/:id": {
+      "delete": {
+        "summary": "",
+        "operationId": "delete-postings-:id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "description": "Users can delete postings they've created... userid must be provided in the request to validate that user owns the posting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "id is the user's id"
+        }
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-postings-:id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "description": "Users can modify Title, Description and Price of postings they've created. Only works if logged in and user is the creator of the posting.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "newTitle": {
+                    "type": "string"
+                  },
+                  "newDescription": {
+                    "type": "string"
+                  },
+                  "newPrice": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "id is the userid to validate login"
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "get-login",
+        "description": "This is used to log in users with already created user accounts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-logout",
+        "description": "Logging out user that is logged in to the system.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "id is user id of the logged in user"
+        }
+      }
+    },
+    "/registeruser": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-registeruser",
+        "description": "This is used for users to register a new user account.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "id is the user id for the new user. Normally this would be set on server end but in this version it's at the user's end to simplify testing"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}
