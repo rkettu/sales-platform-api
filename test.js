@@ -7,7 +7,7 @@ var postingid = uuidv4();
 var username = uuidv4();
 var password = uuidv4();
 
-var host = 'http://ec2-54-145-72-123.compute-1.amazonaws.com'
+var host = 'http://localhost:3000'
 
 chai.use(chaiHttp);
 
